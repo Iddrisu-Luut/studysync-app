@@ -1,1 +1,1 @@
-# studysync-app
+# index.html
