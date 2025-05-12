@@ -1,0 +1,163 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>StudySync Login</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      transition: background 0.3s, color 0.3s;
+    }
+    .light-mode {
+      background: #ecf0f1;
+      color: #2c3e50;
+    }
+    .dark-mode {
+      background: #2c3e50;
+      color: #ecf0f1;
+    }
+    .container {
+      max-width: 400px;
+      margin: 100px auto;
+      background: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+    .dark-mode .container {
+      background: #34495e;
+      color: #ecf0f1;
+    }
+    input {
+      width: 90%;
+      padding: 10px;
+      margin-bottom: 10px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+    button {
+      padding: 10px 15px;
+      background: #3498db;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    #mainApp {
+      display: none;
+    }
+    .toggle-theme {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+    }
+  </style>
+</head>
+<body class="light-mode">
+  <button class="toggle-theme" onclick="toggleTheme()">🌓 Toggle Theme</button>
+
+  <div class="container" id="loginForm">
+    <h2>StudySync Login</h2>
+    <input type="email" id="email" placeholder="Enter your email" required><br>
+    <input type="password" id="password" placeholder="Enter your password" required><br>
+    <button onclick="simpleLogin()">Login</button>
+  </div>
+
+  <div id="mainApp">
+    <div class="container">
+      <h1>📘 StudySync</h1>
+      <p>Your Smart Academic Companion</p>
+
+      <section>
+        <h2>📝 To-Do List</h2>
+        <input type="text" id="taskInput" placeholder="Enter a task..." />
+        <button onclick="addTask()">Add Task</button>
+        <ul id="taskList"></ul>
+      </section>
+
+      <section>
+        <h2>📆 Study Timetable</h2>
+        <input type="text" id="studyHours" placeholder="e.g., 6-8pm Mon-Fri" />
+        <button onclick="generateTimetable()">Generate</button>
+        <div id="timetableOutput"></div>
+      </section>
+
+      <section>
+        <h2>📈 Progress Tracker</h2>
+        <input type="text" id="topicInput" placeholder="Enter topic covered..." />
+        <button onclick="addProgress()">Add</button>
+        <ul id="progressList"></ul>
+      </section>
+    </div>
+  </div>
+
+  <script>
+    let userEmail = "";
+
+    function simpleLogin() {
+      const email = document.getElementById('email').value.trim();
+      const password = document.getElementById('password').value.trim();
+      if (!email || !password) {
+        alert("Please fill in both fields.");
+        return;
+      }
+
+      userEmail = email;
+      document.getElementById('loginForm').style.display = 'none';
+      document.getElementById('mainApp').style.display = 'block';
+    }
+
+    function addTask() {
+      const taskInput = document.getElementById('taskInput');
+      const task = taskInput.value.trim();
+      if (task) {
+        const li = document.createElement('li');
+        li.textContent = task;
+
+        const btn = document.createElement('button');
+        btn.textContent = 'Done';
+        btn.style.background = 'red';
+        btn.style.color = 'white';
+        btn.style.marginLeft = '10px';
+        btn.onclick = () => li.remove();
+
+        li.appendChild(btn);
+        document.getElementById('taskList').appendChild(li);
+        taskInput.value = '';
+      }
+    }
+
+    function generateTimetable() {
+      const hours = document.getElementById('studyHours').value;
+      const tips = [
+        "Review difficult topics first.",
+        "Use 25-minute focus sessions.",
+        "Stay hydrated and rest well."
+      ];
+      const tip = tips[Math.floor(Math.random() * tips.length)];
+      document.getElementById('timetableOutput').innerHTML =
+        `📚 Your Study Plan: ${hours}<br><em>Tip:</em> ${tip}`;
+    }
+
+    function addProgress() {
+      const topic = document.getElementById('topicInput').value;
+      if (topic) {
+        const li = document.createElement('li');
+        li.textContent = topic;
+        document.getElementById('progressList').appendChild(li);
+        document.getElementById('topicInput').value = '';
+      }
+    }
+
+    function toggleTheme() {
+      document.body.classList.toggle('dark-mode');
+      document.body.classList.toggle('light-mode');
+    }
+  </script>
+</body>
+</html>
